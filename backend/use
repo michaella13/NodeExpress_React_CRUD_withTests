@@ -1,0 +1,157 @@
+import React, { useState } from "react";
+
+const Signup = () => {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [termsAgreed, setTermsAgreed] = useState(false);
+  const [formErrors, setFormErrors] = useState({});
+
+  const validateForm = () => {
+    const errors = {};
+    if (!username.trim()) {
+      errors.username = "Username is required";
+    }
+    if (!email.trim()) {
+      errors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      errors.email = "Email is invalid";
+    }
+    if (!password.trim()) {
+      errors.password = "Password is required";
+    } else if (password.length < 6) {
+      errors.password = "Password must be at least 6 characters";
+    }
+    if (!termsAgreed) {
+      errors.termsAgreed = "You must agree to the terms and conditions";
+    }
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      console.log("Form submitted successfully");
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div className="form-group">
+        <label htmlFor="username">Username</label>
+        <input
+          type="text"
+          id="username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          className={formErrors.username ? "error" : ""}
+        />
+        {formErrors.username && (
+          <span className="error-message">{formErrors.username}</span>
+        )}
+      </div>
+      <div className="form-group">
+        <label htmlFor="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className={formErrors.email ? "error" : ""}
+        />
+        {formErrors.email && (
+          <span className="error-message">{formErrors.email}</span>
+        )}
+      </div>
+      <div className="form-group">
+        <label htmlFor="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className={formErrors.password ? "error" : ""}
+        />
+        {formErrors.password && (
+          <span className="error-message">{formErrors.password}</span>
+        )}
+      </div>
+      <div className="form-group">
+        <input
+          type="checkbox"
+          id="termsAgreed"
+          checked={termsAgreed}
+          onChange={(e) => setTermsAgreed(e.target.checked)}
+          className={formErrors.termsAgreed ? "error" : ""}
+        />
+        <label htmlFor="termsAgreed">
+          I agree to the terms and conditions
+        </label>
+        {formErrors.termsAgreed && (
+          <span className="error-message">{formErrors.termsAgreed}</span>
+        )}
+      </div>
+      <button type="submit">Sign up</button>
+    </form>
+  );
+};
+
+export default Signup;
+ CSS
+
+
+
+
+
+
+ .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+  }
+  
+  label {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    border: none;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  input[type="checkbox"] {
+    margin-right: 0.5rem;
+  }
+  
+  button[type="submit"] {
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #0069d9;
+  }
+  .error {
+    border-color: #ff0000;
+  }
+  
+  .error-message {
+    color: #ff0000;
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+  }
